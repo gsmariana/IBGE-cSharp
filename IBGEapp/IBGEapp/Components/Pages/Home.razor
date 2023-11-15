@@ -1,69 +1,140 @@
-﻿@page "/"
 @inject HttpClient Http
+@page "/"
 
-<h1>Informações Geográficas do Brasil</h1>
 
-<h2>Regiões</h2>
-@foreach (var region in regions)
+<h1>Geographical Information of Brazil</h1>
+
+@if (isLoading)
 {
-    <p>@region</p>
+    <p>Loading...</p>
 }
-
-<h2>Estados por Região</h2>
-@foreach (var state in states)
+else if (hasError)
 {
-    <p>@state.Nome (@state.Sigla)</p>
+    <p class="error-message">@errorMessage</p>
 }
-
-<h2>Cidades por Estado</h2>
-@if (selectedState != null)
+else
 {
-    <select @onchange="OnStateSelected">
-        <option value="">Selecione um Estado</option>
-        @foreach (var state in states)
-        {
-            <option value="@state.Sigla">@state.Nome</option>
-        }
-    </select>
-
-    foreach (var city in cities)
+    <h2>Regions</h2>
+    @if (regions != null && regions.Any())
     {
-        <p>@city.Nome</p>
+        foreach (var region in regions)
+        {
+            <p>@region</p>
+        }
+    }
+
+    <h2>States by Region</h2>
+    @if (states != null && states.Any())
+    {
+        <select @onchange="OnStateSelected">
+            <option value="">Select a State</option>
+            @foreach (var state in states)
+            {
+                <option value="@state.sigla">@state.nome</option>
+            }
+        </select>
+    }
+
+    <h2>Cities by State</h2>
+    @if (!string.IsNullOrEmpty(selectedState) && cities != null && cities.Any())
+    {
+        foreach (var city in cities)
+        {
+            <p>@city.nome</p>
+        }
     }
 }
 
 @code {
-    private List<string> regions = new List<string>();
-    private List<State> states = new List<State>();
-    private List<City> cities = new List<City>();
+
+    private bool isLoading = true;
+    private bool hasError = false;
+    private string errorMessage = "";
+    private List<string> regions;
+    private List<State> states;
+    private List<City> cities;
     private string selectedState;
 
     protected override async Task OnInitializedAsync()
     {
-        states = await Http.GetFromJsonAsync<List<State>>("https://brasilapi.com.br/api/ibge/uf/v1");
-        regions = states.Select(s => s.Regiao.Nome).Distinct().ToList();
+        try
+        {
+            states = await Http.GetFromJsonAsync<List<State>>("https://brasilapi.com.br/api/ibge/uf/v1");
+            regions = states.Select(s => s.regiao.nome).Distinct().ToList();
+        }
+        catch (Exception ex)
+        {
+            hasError = true;
+            errorMessage = $"Error loading states: {ex.Message}";
+        }
+        finally
+        {
+            isLoading = false;
+        }
     }
 
     private async Task OnStateSelected(ChangeEventArgs e)
     {
         selectedState = e.Value.ToString();
-        cities = await Http.GetFromJsonAsync<List<City>>($"https://brasilapi.com.br/api/ibge/municipios/v1/{selectedState}");
+        if (!string.IsNullOrEmpty(selectedState))
+        {
+            try
+            {
+                cities = await Http.GetFromJsonAsync<List<City>>($"https://brasilapi.com.br/api/ibge/municipios/v1/{selectedState}");
+            }
+            catch (Exception ex)
+            {
+                hasError = true;
+                errorMessage = $"Error loading cities for state {selectedState}: {ex.Message}";
+            }
+        }
+        else
+        {
+            cities = null;
+        }
     }
 
     public class State
     {
-        public string Nome { get; set; }
-        public string Sigla { get; set; }
-        public Region Regiao { get; set; }
+        public string nome { get; set; }
+        public string sigla { get; set; }
+        public Region regiao { get; set; }
     }
 
     public class City
     {
-        public string Nome { get; set; }
+        public string nome { get; set; }
     }
 
     public class Region
     {
-        public string Nome { get; set; }
+        public string nome { get; set; }
     }
 }
+
+<style>
+    h1, h2 {
+        color: #0056b3;
+        text-align: center;
+    }
+    select {
+        width: 100%;
+        padding: 8px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        margin-bottom: 15px;
+    }
+    p {
+        padding: 5px;
+        background-color: #f2f2f2;
+        border-radius: 5px;
+        margin: 5px 0;
+    }
+    .error-message {
+        color: #b00020;
+        background-color: #fce4ec;
+        padding: 10px;
+        border-radius: 5px;
+        margin: 10px 0;
+    }
+</style>
