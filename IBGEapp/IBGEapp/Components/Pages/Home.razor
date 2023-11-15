@@ -1,0 +1,69 @@
+﻿@page "/"
+@inject HttpClient Http
+
+<h1>Informações Geográficas do Brasil</h1>
+
+<h2>Regiões</h2>
+@foreach (var region in regions)
+{
+    <p>@region</p>
+}
+
+<h2>Estados por Região</h2>
+@foreach (var state in states)
+{
+    <p>@state.Nome (@state.Sigla)</p>
+}
+
+<h2>Cidades por Estado</h2>
+@if (selectedState != null)
+{
+    <select @onchange="OnStateSelected">
+        <option value="">Selecione um Estado</option>
+        @foreach (var state in states)
+        {
+            <option value="@state.Sigla">@state.Nome</option>
+        }
+    </select>
+
+    foreach (var city in cities)
+    {
+        <p>@city.Nome</p>
+    }
+}
+
+@code {
+    private List<string> regions = new List<string>();
+    private List<State> states = new List<State>();
+    private List<City> cities = new List<City>();
+    private string selectedState;
+
+    protected override async Task OnInitializedAsync()
+    {
+        states = await Http.GetFromJsonAsync<List<State>>("https://brasilapi.com.br/api/ibge/uf/v1");
+        regions = states.Select(s => s.Regiao.Nome).Distinct().ToList();
+    }
+
+    private async Task OnStateSelected(ChangeEventArgs e)
+    {
+        selectedState = e.Value.ToString();
+        cities = await Http.GetFromJsonAsync<List<City>>($"https://brasilapi.com.br/api/ibge/municipios/v1/{selectedState}");
+    }
+
+    public class State
+    {
+        public string Nome { get; set; }
+        public string Sigla { get; set; }
+        public Region Regiao { get; set; }
+    }
+
+    public class City
+    {
+        public string Nome { get; set; }
+    }
+
+    public class Region
+    {
+        public string Nome { get; set; }
+    }
+}
