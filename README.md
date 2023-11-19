@@ -19,8 +19,8 @@ Para a execução do projeto, é necessário as seguintes instalações:
 
 Para instalar o IBGE-cSharp, siga os seguintes passos:
 
-  git clone [URL_DO_REPOSITORIO]
-    
+  git clone 
+
   cd IBGE-cSharp
   
   dotnet run
