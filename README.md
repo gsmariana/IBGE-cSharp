@@ -19,7 +19,7 @@ Para a execução do projeto, é necessário as seguintes instalações:
 
 Para instalar o IBGE-cSharp, siga os seguintes passos:
 
-  git clone 
+  git clone https://github.com/gsmariana/IBGE-cSharp.git
 
   cd IBGE-cSharp
   
