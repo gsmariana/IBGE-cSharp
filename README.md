@@ -12,7 +12,7 @@ Este projeto em Blazor exibe informações geográficas do Brasil, incluindo sua
 
 Para a execução do projeto, é necessário as seguintes instalações:
 
-- [.NET 6 SDK](https://dotnet.microsoft.com/download/dotnet/6.0)
+- [.NET 7 SDK](https://dotnet.microsoft.com/download/dotnet/7.0)
 - Um editor de código, como [Visual Studio](https://visualstudio.microsoft.com/), [VS Code](https://code.visualstudio.com/) 
 
 ## Instale o IBGE-cSharp
