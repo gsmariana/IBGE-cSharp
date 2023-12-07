@@ -1,0 +1,140 @@
+﻿@inject HttpClient Http
+@page "/"
+
+
+<h1>Geographical Information of Brazil</h1>
+
+@if (isLoading)
+{
+    <p>Loading...</p>
+}
+else if (hasError)
+{
+    <p class="error-message">@errorMessage</p>
+}
+else
+{
+    <h2>Regions</h2>
+    @if (regions != null && regions.Any())
+    {
+        foreach (var region in regions)
+        {
+            <p>@region</p>
+        }
+    }
+
+    <h2>States by Region</h2>
+    @if (states != null && states.Any())
+    {
+        <select @onchange="OnStateSelected">
+            <option value="">Select a State</option>
+            @foreach (var state in states)
+            {
+                <option value="@state.sigla">@state.nome</option>
+            }
+        </select>
+    }
+
+    <h2>Cities by State</h2>
+    @if (!string.IsNullOrEmpty(selectedState) && cities != null && cities.Any())
+    {
+        foreach (var city in cities)
+        {
+            <p>@city.nome</p>
+        }
+    }
+}
+
+@code {
+
+    private bool isLoading = true;
+    private bool hasError = false;
+    private string errorMessage = "";
+    private List<string> regions;
+    private List<State> states;
+    private List<City> cities;
+    private string selectedState;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            states = await Http.GetFromJsonAsync<List<State>>("https://brasilapi.com.br/api/ibge/uf/v1");
+            regions = states.Select(s => s.regiao.nome).Distinct().ToList();
+        }
+        catch (Exception ex)
+        {
+            hasError = true;
+            errorMessage = $"Error loading states: {ex.Message}";
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private async Task OnStateSelected(ChangeEventArgs e)
+    {
+        selectedState = e.Value.ToString();
+        if (!string.IsNullOrEmpty(selectedState))
+        {
+            try
+            {
+                cities = await Http.GetFromJsonAsync<List<City>>($"https://brasilapi.com.br/api/ibge/municipios/v1/{selectedState}");
+            }
+            catch (Exception ex)
+            {
+                hasError = true;
+                errorMessage = $"Error loading cities for state {selectedState}: {ex.Message}";
+            }
+        }
+        else
+        {
+            cities = null;
+        }
+    }
+
+    public class State
+    {
+        public string nome { get; set; }
+        public string sigla { get; set; }
+        public Region regiao { get; set; }
+    }
+
+    public class City
+    {
+        public string nome { get; set; }
+    }
+
+    public class Region
+    {
+        public string nome { get; set; }
+    }
+}
+
+<style>
+    h1, h2 {
+        color: #0056b3;
+        text-align: center;
+    }
+    select {
+        width: 100%;
+        padding: 8px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        margin-bottom: 15px;
+    }
+    p {
+        padding: 5px;
+        background-color: #f2f2f2;
+        border-radius: 5px;
+        margin: 5px 0;
+    }
+    .error-message {
+        color: #b00020;
+        background-color: #fce4ec;
+        padding: 10px;
+        border-radius: 5px;
+        margin: 10px 0;
+    }
+</style>

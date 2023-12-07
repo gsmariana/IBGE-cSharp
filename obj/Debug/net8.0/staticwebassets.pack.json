@@ -1,0 +1,61 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\joaor\\Downloads\\IBGE-app\\IBGE-cSharp\\bin\\Debug\\net8.0\\wwwroot\\_framework\\blazor.webassembly.js",
+      "PackagePath": "staticwebassets\\_framework\\blazor.webassembly.js"
+    },
+    {
+      "Id": "C:\\Users\\joaor\\Downloads\\IBGE-app\\IBGE-cSharp\\obj\\Debug\\net8.0\\compressed\\rguoz2frij.gz",
+      "PackagePath": "staticwebassets\\_framework\\blazor.webassembly.js.gz"
+    },
+    {
+      "Id": "C:\\Users\\joaor\\Downloads\\IBGE-app\\IBGE-cSharp\\obj\\Debug\\net8.0\\scopedcss\\bundle\\IBGE-cSharp.styles.css",
+      "PackagePath": "staticwebassets\\IBGE-cSharp.styles.css"
+    },
+    {
+      "Id": "C:\\Users\\joaor\\Downloads\\IBGE-app\\IBGE-cSharp\\wwwroot\\css\\app.css",
+      "PackagePath": "staticwebassets\\css\\app.css"
+    },
+    {
+      "Id": "C:\\Users\\joaor\\Downloads\\IBGE-app\\IBGE-cSharp\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\joaor\\Downloads\\IBGE-app\\IBGE-cSharp\\wwwroot\\css\\bootstrap\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\joaor\\Downloads\\IBGE-app\\IBGE-cSharp\\wwwroot\\favicon.png",
+      "PackagePath": "staticwebassets\\favicon.png"
+    },
+    {
+      "Id": "C:\\Users\\joaor\\Downloads\\IBGE-app\\IBGE-cSharp\\wwwroot\\icon-192.png",
+      "PackagePath": "staticwebassets\\icon-192.png"
+    },
+    {
+      "Id": "C:\\Users\\joaor\\Downloads\\IBGE-app\\IBGE-cSharp\\wwwroot\\index.html",
+      "PackagePath": "staticwebassets\\index.html"
+    },
+    {
+      "Id": "C:\\Users\\joaor\\Downloads\\IBGE-app\\IBGE-cSharp\\wwwroot\\sample-data\\weather.json",
+      "PackagePath": "staticwebassets\\sample-data\\weather.json"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.IBGE-cSharp.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.IBGE-cSharp.props",
+      "PackagePath": "build\\IBGE-cSharp.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.IBGE-cSharp.props",
+      "PackagePath": "buildMultiTargeting\\IBGE-cSharp.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.IBGE-cSharp.props",
+      "PackagePath": "buildTransitive\\IBGE-cSharp.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
