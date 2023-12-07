@@ -28,3 +28,8 @@ Para instalar o IBGE-cSharp, siga os seguintes passos:
   https://localhost:5001
     
   Ou, se estiver utilizando uma porta diferente, a URL correta será exibida no terminal.
+
+  Codigo atualizado para o .NET 7
+
+  ![image](https://github.com/gsmariana/IBGE-cSharp/assets/150947842/cc092157-9e8b-43cc-ad4c-dd0de49a95ac)
+
